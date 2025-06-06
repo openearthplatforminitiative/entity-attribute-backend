@@ -7,13 +7,17 @@ from geojson_pydantic.geometries import Geometry
 from pydantic import create_model
 from pydantic.main import ModelT
 
+from eav_backend.config import settings
+from eav_backend.dependencies import get_asset_service
 from eav_backend.models import EntityDefinition
+from eav_backend.routes.v1.asset_routes import get_assets, add_asset
 from eav_backend.routes.v1.entity_routes import (
     get_entity,
     add_entity,
     update_entity,
     delete_entity,
 )
+from eav_backend.schemas.asset import Asset
 from eav_backend.schemas.basemodel import BaseModel
 from eav_backend.services.entity_definition_service import (
     EntityDefinitionService,
@@ -191,6 +195,16 @@ class DynamicModelService:
                     relation_collection,
                 )
 
+            if ed.supports_assets and settings.enable_assets:
+                self.add_asset_endpoints(
+                    ed,
+                    model,
+                    f"{root_path}/{{{ed.identifier}}}",
+                    tag,
+                    path_params + [ed.identifier],
+                    relation_collection,
+                )
+
         for relation in ed.entity_relations:
             self.build_api_endpoints(
                 relation.target_entity,
@@ -328,5 +342,51 @@ class DynamicModelService:
                 path_params=path_params,
                 entity_definition=entity_definition,
                 relation_collection=relation_collection,
+            ),
+        )
+
+    def add_asset_endpoints(
+        self,
+        entity_definition,
+        model,
+        root_path,
+        tag,
+        path_params,
+        relation_collection=None,
+    ):
+        self.app.add_api_route(
+            path=f"{root_path}/assets",
+            response_model=List[Asset],
+            methods=["GET"],
+            tags=[tag],
+            name=f"get_{entity_definition.name}_assets",
+            description=f"Get assets for {entity_definition.name}",
+            endpoint=create_endpoint_wrapper(
+                handler=get_assets,  # Replace with the actual handler for assets
+                http_method="GET",
+                path_params=path_params,
+                response_model=List[Asset],
+                entity_definition=entity_definition,
+                relation_collection=relation_collection,
+                service=get_asset_service,
+            ),
+        )
+        self.app.add_api_route(
+            path=f"{root_path}/assets",
+            response_model=Asset,
+            methods=["POST"],
+            tags=[tag],
+            name=f"add_{entity_definition.name}_asset",
+            description=f"Add an asset to {entity_definition.name}",
+            endpoint=create_endpoint_wrapper(
+                handler=add_asset,  # Replace with the actual handler for adding assets
+                http_method="POST",
+                path_params=path_params,
+                include_body=False,
+                upload_file=True,
+                response_model=Asset,
+                entity_definition=entity_definition,
+                relation_collection=relation_collection,
+                service=get_asset_service,
             ),
         )

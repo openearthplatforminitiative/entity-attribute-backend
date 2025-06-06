@@ -73,6 +73,7 @@ async def add_entity(
     path_params: list[str],
     param_values: list[str],
     relation_collection: str = None,
+    **kwargs,
 ) -> ModelT:
     param_dict = {}
     if path_params and param_values:

@@ -7,7 +7,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from eav_backend import migrate
 from eav_backend.config import settings
 from eav_backend.database import SessionLocal
-from eav_backend.routes.v1 import admin_routes
+from eav_backend.routes.v1 import admin_routes, asset_routes
 from eav_backend.services.dynamic_model_service import DynamicModelService
 from eav_backend.services.entity_definition_service import EntityDefinitionService
 from eav_backend.services.entity_import_service import EntityImportService
@@ -32,6 +32,9 @@ async def lifespan(app: FastAPI):
 
 def get_application() -> FastAPI:
     api = FastAPI(lifespan=lifespan, root_path=settings.api_root_path)
+
+    if settings.enable_assets:
+        api.include_router(asset_routes.router)
 
     if settings.enable_admin_api:
         api.include_router(admin_routes.router)

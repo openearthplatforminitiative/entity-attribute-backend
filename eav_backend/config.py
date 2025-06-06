@@ -31,6 +31,12 @@ class Settings(BaseSettings):
 
     enable_admin_api: bool = False
     enable_metrics: bool = False
+    enable_assets: bool = True
+
+    max_upload_size: int = 10 * 1024 * 1024  # 10 MB
+
+    def asset_content_url(self, asset_id: str) -> str:
+        return f"{self.api_url}/assets/{asset_id}"
 
     @property
     def api_url(self):
