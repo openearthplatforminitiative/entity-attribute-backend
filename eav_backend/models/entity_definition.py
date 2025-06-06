@@ -92,6 +92,12 @@ class EntityDefinition(Base):
         doc="Whether this entity should return a summary object on the collection.",
     )
 
+    supports_assets: Mapped[bool] = mapped_column(
+        BOOLEAN,
+        nullable=False,
+        doc="Whether this entity supports to have assets/files linked to it.",
+    )
+
     required_attributes: Mapped[List[AttributeDefinition]] = relationship(
         "AttributeDefinition",
         secondary=entity_required_attributes,

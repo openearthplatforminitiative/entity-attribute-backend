@@ -22,6 +22,7 @@ services:
       IMPORT_ENTITIES: true
       UPDATE_ENTITIES: false
       IMPORT_CONFIG: "examples/entities"
+      ENABLE_ASSETS: true
       ENABLE_ADMIN_API: false
       ENABLE_METRICS: false
       POSTGRES_USER: eav_user

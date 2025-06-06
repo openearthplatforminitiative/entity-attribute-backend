@@ -3,6 +3,7 @@
     "collection_name": "incidents",
     "apiEndpoints": ["GET", "PUT"],
     "returnSummaryOnCollection": true,
+    "supportsAssets": true,
     "requiredAttributes": [
         {
             "name": "name",
