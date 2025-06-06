@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  eav-db:
+    image: postgis/postgis:latest
+    container_name: eav-db
+    environment:
+      POSTGRES_DB: eav
+      POSTGRES_USER: eav_user
+      POSTGRES_PASSWORD: eav_pass
+    ports:
+      - "5432:5432"
+    networks:
+      - eav-net
+
+  eav-backend:
+    image: ghcr.io/openearthplatforminitiative/eav-backend:0.0.1
+    container_name: eav-backend
+    depends_on:
+      - eav-db
+    environment:
+      IMPORT_ENTITIES: true
+      UPDATE_ENTITIES: false
+      IMPORT_CONFIG: "examples/entities"
+      ENABLE_ADMIN_API: false
+      ENABLE_METRICS: false
+      POSTGRES_USER: eav_user
+      POSTGRES_PASSWORD: eav_pass
+      POSTGRES_DB: eav
+      POSTGRES_HOST: eav-db
+      LOG_LEVEL: INFO
+    ports:
+      - "8080:8080"
+    networks:
+      - eav-net
+
+networks:
+  eav-net:
+    driver: bridge

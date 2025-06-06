@@ -1,0 +1,23 @@
+{
+    "name": "Incident",
+    "collection_name": "incidents",
+    "apiEndpoints": ["GET", "PUT"],
+    "returnSummaryOnCollection": true,
+    "requiredAttributes": [
+        {
+            "name": "name",
+            "type": "STRING",
+            "includeInSummary": true
+        },
+        {
+            "name": "description",
+            "type": "STRING"
+        },
+        {
+            "name": "location",
+            "type": "GEOMETRY"
+        }
+    ],
+    "optionalAttributes": [],
+    "relatedEntities": []
+}

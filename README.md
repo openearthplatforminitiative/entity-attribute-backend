@@ -1,2 +1,4 @@
-# entity-attribute-backend
-A dynamic backend for registry applications
+# Entity Attribute Backend
+A generic backend for registry applications.
+
+
