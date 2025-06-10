@@ -21,6 +21,7 @@ geoalchemy2 = "^0.17.1"
 shapely = "^2.0.7"
 geojson-pydantic = "^1.2.0"
 python-multipart = "^0.0.20"
+pytest = "^8.4.0"
 
 [tool.poetry.group.dev.dependencies]
 #black = "^23.9.1"
