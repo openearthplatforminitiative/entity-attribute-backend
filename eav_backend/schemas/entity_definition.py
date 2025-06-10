@@ -31,6 +31,11 @@ class EntityDefinitionRequest(BaseModel):
         description="Whether this entity should return a summary object on the collection.",
         default=True,
     )
+    supports_assets: bool = Field(
+        alias="supportsAssets",
+        description="Whether this entity supports to have assets/files linked to it.",
+        default=False,
+    )
     required_attributes: List[AttributeDefinitionRequest] = Field(
         alias="requiredAttributes",
         description="The required attributes for this entity.",
@@ -64,6 +69,12 @@ class EntityDefinitionResponse(BaseModel):
         alias="returnSummaryOnCollection",
         description="Whether this entity should return a summary object on the collection.",
         default=True,
+    )
+
+    supports_assets: bool = Field(
+        alias="supportsAssets",
+        description="Whether this entity supports to have assets/files linked to it.",
+        default=False,
     )
 
     required_attributes: List[AttributeDefinitionResponse] = Field(
