@@ -3,13 +3,17 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    title: str = "Entity Attribute Generic Backend"
+
     version: str = "0.0.1"
     uvicorn_port: int = 8080
     uvicorn_host: str = "0.0.0.0"
     uvicorn_reload: bool = True
     uvicorn_proxy_headers: bool = False
     api_root_path: str = ""
-    api_description: str = ""
+    api_description: str = (
+        "A generic backend for managing entities and their attributes."
+    )
     api_domain: str = "localhost"
 
     log_level: str = "INFO"
@@ -25,13 +29,13 @@ class Settings(BaseSettings):
     alembic_directory: str = "./alembic"
     alembic_file: str = "./alembic.ini"
 
-    import_entities: bool = True
+    import_entities: bool = False
     update_entities: bool = False
     import_config: str | None = None
 
-    enable_admin_api: bool = False
+    enable_admin_api: bool = True
     enable_metrics: bool = False
-    enable_assets: bool = True
+    enable_assets: bool = False
 
     max_upload_size: int = 10 * 1024 * 1024  # 10 MB
 

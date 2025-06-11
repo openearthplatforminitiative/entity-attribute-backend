@@ -31,7 +31,13 @@ async def lifespan(app: FastAPI):
 
 
 def get_application() -> FastAPI:
-    api = FastAPI(lifespan=lifespan, root_path=settings.api_root_path)
+    api = FastAPI(
+        lifespan=lifespan,
+        root_path=settings.api_root_path,
+        title=settings.title,
+        summary=settings.api_description,
+        version=settings.version,
+    )
 
     if settings.enable_assets:
         api.include_router(asset_routes.router)

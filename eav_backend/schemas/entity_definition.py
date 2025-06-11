@@ -39,17 +39,14 @@ class EntityDefinitionRequest(BaseModel):
     required_attributes: List[AttributeDefinitionRequest] = Field(
         alias="requiredAttributes",
         description="The required attributes for this entity.",
-        default=[],
     )
     optional_attributes: List[AttributeDefinitionRequest] = Field(
         alias="optionalAttributes",
         description="The optional attributes for this entity.",
-        default=[],
     )
     related_entities: List[EntityRelationRequest] = Field(
         alias="relatedEntities",
         description="The related entities for this entity.",
-        default=[],
     )
 
 

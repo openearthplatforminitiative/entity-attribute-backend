@@ -12,18 +12,24 @@ services:
       - "5432:5432"
     networks:
       - eav-net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "eav_user", "-d", "eav"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   eav-backend:
-    image: ghcr.io/openearthplatforminitiative/eav-backend:0.0.1
+    image: ghcr.io/openearthplatforminitiative/entity-attribute-backend:latest
     container_name: eav-backend
     depends_on:
-      - eav-db
+      eav-db:
+        condition: service_healthy
     environment:
-      IMPORT_ENTITIES: true
+      IMPORT_ENTITIES: false
       UPDATE_ENTITIES: false
       IMPORT_CONFIG: "examples/entities"
-      ENABLE_ASSETS: true
-      ENABLE_ADMIN_API: false
+      ENABLE_ASSETS: false
+      ENABLE_ADMIN_API: true
       ENABLE_METRICS: false
       POSTGRES_USER: eav_user
       POSTGRES_PASSWORD: eav_pass
