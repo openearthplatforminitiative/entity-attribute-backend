@@ -32,7 +32,7 @@ def get_entity_service(
 def get_entity_import_service(
     eds: EntityDefinitionService = Depends(get_entity_definition_service),
 ) -> EntityImportService:
-    return EntityImportService(eds, settings.import_config)
+    return EntityImportService(eds)
 
 
 def get_asset_service(
